@@ -183,3 +183,15 @@ module "karpenter" {
 
   tags = local.tags
 }
+
+module "aws_ebs_csi_driver" {
+  depends_on = [module.aws_eks.cluster_id]
+
+  source = "./submodules/aws-ebs-csi-driver"
+
+  owner                 = "CloudOps"
+  cluster_name          = var.cluster_name
+  eks_cluster_id        = module.aws_eks.cluster_id
+  eks_oidc_provider_arn = module.aws_eks.oidc_provider_arn
+  eks_oidc_issuer_url   = split("//", module.aws_eks.cluster_oidc_issuer_url)[1]
+}
