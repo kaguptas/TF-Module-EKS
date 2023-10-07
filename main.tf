@@ -171,11 +171,6 @@ module "karpenter" {
 
   source = "./submodules/karpenter"
 
-  subnetSelectorKey              = "aws-ids"
-  subnetSelectorValue            = join(",", [for s in data.aws_subnet.subnets : s.id])
-  securityGroupSelectorKey       = "karpenter.sh/discovery/${var.cluster_name}"
-  securityGroupSelectorValue     = var.cluster_name
-  instanceProfile                = aws_iam_instance_profile.karpenter.name
   defaultProvisionerCapacityType = var.karpenter_default_node_capacity
   defaultProvisionerInstanceType = var.karpenter_default_node_instance
   cpu                            = var.karpenter_default_node_cpu
