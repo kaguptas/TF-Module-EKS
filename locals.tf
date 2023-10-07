@@ -112,7 +112,7 @@ locals {
   )
 
   node_security_group_tags = {
-    "karpenter.sh/discovery/${local.name}" = local.name
+    "karpenter.sh/discovery/${var.cluster_name}" = var.cluster_name
   }
 
   # Tags
