@@ -1,7 +1,7 @@
 locals {
   values = {
     subnetSelectorKey              = "aws-ids"
-    subnetSelectorValue            = join(",", [for s in data.aws_subnet.subnets : s.id])
+    subnetSelectorValue            = var.subnets
     securityGroupSelectorKey       = "karpenter.sh/discovery/${var.cluster_name}"
     securityGroupSelectorValue     = var.cluster_name
     instanceProfile                = aws_iam_instance_profile.karpenter.name
@@ -10,7 +10,7 @@ locals {
     cpu                            = var.karpenter_default_node_cpu
     memory                         = var.karpenter_default_node_memory
 
-    tags = local.tags
+    tags = var.tags
   }
 }
 
@@ -112,7 +112,7 @@ resource "helm_release" "karpenter" {
 
   set {
     name  = "clusterEndpoint"
-    value = module.aws_eks.cluster_endpoint
+    value = var.eks_endpoint
   }
   set {
     name  = "aws.defaultInstanceProfile"

@@ -4,6 +4,12 @@ variable "cluster_name" {
   default     = ""
 }
 
+variable "eks_endpoint" {
+  description = "EKS OIDC Provider URL"
+  type        = string
+  default     = ""
+}
+
 variable "eks_oidc_provider_url" {
   description = "EKS OIDC Provider URL"
   type        = string
@@ -12,6 +18,12 @@ variable "eks_oidc_provider_url" {
 
 variable "worker_node_iam_role" {
   description = "Karpenter node IAM role name"
+  type        = string
+  default     = ""
+}
+
+variable "subnets" {
+  description = "String list of private subnets ID's"
   type        = string
   default     = ""
 }

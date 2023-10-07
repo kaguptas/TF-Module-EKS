@@ -172,8 +172,10 @@ module "karpenter" {
   source = "./submodules/karpenter"
 
   cluster_name                   = var.cluster_name
+  eks_endpoint                   = module.aws_eks.cluster_endpoint
   eks_oidc_provider_url          = split("//", module.aws_eks.cluster_oidc_issuer_url)[1]
   worker_node_iam_role           = aws_iam_role.worker_node.name
+  subnets                        = join(",", [for s in data.aws_subnet.subnets : s.id])
   defaultProvisionerCapacityType = var.karpenter_default_node_capacity
   defaultProvisionerInstanceType = var.karpenter_default_node_instance
   cpu                            = var.karpenter_default_node_cpu
