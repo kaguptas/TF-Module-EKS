@@ -161,5 +161,13 @@ module "aws_eks" {
 }
 
 module "aws_rbac" {
+  depends_on = [module.aws_eks.cluster_id]
+
   source = "./submodules/aws-rbac"
+}
+
+module "karpenter" {
+  depends_on = [module.aws_eks.cluster_id]
+
+  source = "./submodules/karpenter"
 }
