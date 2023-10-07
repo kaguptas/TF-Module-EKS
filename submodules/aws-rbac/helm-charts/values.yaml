@@ -1,0 +1,6 @@
+# default values
+readonly:
+  createRole: true
+  roleName: readonly
+  roleBindingName: readonly
+  groupName: readonly

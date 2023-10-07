@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+ name: {{ .Values.readonly.roleBindingName }}
+roleRef:
+ kind: ClusterRole
+ name: {{ .Values.readonly.roleName }}
+ apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: {{ .Values.readonly.groupName }}
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+ name: view
+roleRef:
+ kind: ClusterRole
+ name: view
+ apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: Group
+  name: view

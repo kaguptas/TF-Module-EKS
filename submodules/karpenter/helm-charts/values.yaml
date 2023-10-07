@@ -1,0 +1,19 @@
+##########################################################################################
+# Helm chart values. THese should be overridden in the main.tf
+##########################################################################################
+subnetSelectorKey: dummy
+subnetSelectorValue: dummy
+
+securityGroupSelectorKey: "karpenter.sh/discovery/${var.cluster_name}"
+securityGroupSelectorValue: ${var.cluster_name}
+
+instanceProfile: ${aws_iam_instance_profile.karpenter_node.id}
+
+defaultProvisionerCapacityType: dummy
+defaultProvisionerInstanceType: dummy
+
+cpu: "10"
+memory: "40Gi"
+
+tags:
+  test: dummy

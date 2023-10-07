@@ -1,0 +1,6 @@
+apiVersion: v2
+name: kubernetes-rbac
+description: Create custom kubernetes roles and permissions
+type: application
+version: 0.0.1
+appVersion: 0.0.1

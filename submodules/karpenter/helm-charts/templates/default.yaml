@@ -1,0 +1,45 @@
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: default
+spec:
+  # labels:
+  #   type: karpenter
+  requirements:
+    - key: karpenter.sh/capacity-type
+      operator: In
+      values: ["{{ .Values.defaultProvisionerCapacityType }}"]
+    - key: "node.kubernetes.io/instance-type"
+      operator: In
+      values:
+        {{- range .Values.defaultProvisionerInstanceType }}
+        - "{{ . }}"
+        {{- end }}
+  # taints:
+  #   - key: karpenter-default-node
+  #     effect: NoSchedule
+  #     value: "true"
+  ttlSecondsAfterEmpty: 60
+  limits:
+    resources:
+      cpu: {{ .Values.cpu }}
+      memory: {{ .Values.memory }}
+  providerRef:
+    name: default
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: default
+spec:
+  subnetSelector:
+    {{ .Values.subnetSelectorKey }}: {{ .Values.subnetSelectorValue }}
+  securityGroupSelector:
+    {{ .Values.securityGroupSelectorKey }}: {{ .Values.securityGroupSelectorValue }}
+  instanceProfile: {{ .Values.instanceProfile }}
+  tags:
+    app.kubernetes.io/created-by: karpenter
+    {{- range $key, $value := .Values.tags }}
+    {{ $key }}: {{ $value | quote }}
+    {{- end }}
