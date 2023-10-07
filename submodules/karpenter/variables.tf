@@ -28,22 +28,22 @@ variable "subnets" {
   default     = ""
 }
 
-variable "defaultProvisionerCapacityType" {
+variable "karpenter_default_node_capacity" {
   description = "Capacity-type for the Karpenter nodes, 'spot' or 'on-demand'."
   type        = string
 }
 
-variable "defaultProvisionerInstanceType" {
+variable "karpenter_default_node_instance" {
   description = "Instance-type for the Karpenter nodes"
   type        = list(string)
 }
 
-variable "cpu" {
+variable "karpenter_default_node_cpu" {
   description = "The CPU limit that should be managed by the Karpenter provisioner."
   type        = string
 }
 
-variable "memory" {
+variable "karpenter_default_node_memory" {
   description = "The memory limit that should be managed by the Karpenter provisioner."
   type        = string
 }
