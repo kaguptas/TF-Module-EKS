@@ -67,7 +67,7 @@ module "aws_eks" {
 
   cluster_security_group_additional_rules = local.cluster_security_group_additional_rules
   node_security_group_additional_rules = local.node_security_group_additional_rules
-  node_security_group_tags             = var.node_security_group_tags
+  node_security_group_tags             = local.node_security_group_tags
 
   attach_cluster_encryption_policy = false
   cluster_encryption_config        = local.cluster_encryption_config

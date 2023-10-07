@@ -111,6 +111,10 @@ locals {
     {}
   )
 
+  node_security_group_tags = {
+    "karpenter.sh/discovery/${local.name}" = local.name
+  }
+
   # Tags
   tags = {
     Environment = var.cluster_name
