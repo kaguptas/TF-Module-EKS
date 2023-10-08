@@ -127,8 +127,8 @@ resource "helm_release" "provisioners" {
   depends_on = [helm_release.karpenter]
 
   name       = "provisioners"
-  chart      = "./helm-charts/"
-  namespace  = "default"
+  chart      = "${path.module}/helm-charts"
+  namespace  = "karpenter"
 
   values     = [ yamlencode(local.values) ]
 }
