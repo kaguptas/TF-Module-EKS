@@ -2,13 +2,13 @@ locals {
 
   # Cluster data
   cluster_encryption_config = [{
-      provider_key_arn = aws_kms_key.this.arn
-      resources        = ["secrets"]
+    provider_key_arn = aws_kms_key.this.arn
+    resources        = ["secrets"]
   }]
 
-  eks_cluster_id     = module.aws_eks.cluster_id
-  cluster_ca_base64  = module.aws_eks.cluster_certificate_authority_data
-  cluster_endpoint   = module.aws_eks.cluster_endpoint
+  eks_cluster_id    = module.aws_eks.cluster_id
+  cluster_ca_base64 = module.aws_eks.cluster_certificate_authority_data
+  cluster_endpoint  = module.aws_eks.cluster_endpoint
 
   cluster_iam_role_name        = "${var.cluster_name}-cluster-role"
   cluster_iam_role_pathed_name = local.cluster_iam_role_name
@@ -77,11 +77,11 @@ locals {
       }
       # allow nodes to talk with kubeapi
       ingress_nodes_kubeapi = {
-        description = "Node to kube API all ports/protocols"
-        protocol    = "-1"
-        from_port   = 0
-        to_port     = 0
-        type        = "ingress"
+        description                   = "Node to kube API all ports/protocols"
+        protocol                      = "-1"
+        from_port                     = 0
+        to_port                       = 0
+        type                          = "ingress"
         source_cluster_security_group = true
       }
       # Recommended outbound traffic for Node groups

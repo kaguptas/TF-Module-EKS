@@ -92,7 +92,7 @@ output "worker_node_security_group_id" {
 #--------------------------------
 output "eks_managed_node_groups" {
   description = "Outputs from EKS Managed node groups "
-  value       =  try(module.aws_eks.eks_managed_node_groups, "EKS Node groups not enabled")
+  value       = try(module.aws_eks.eks_managed_node_groups, "EKS Node groups not enabled")
 }
 
 
@@ -110,5 +110,5 @@ output "tags" {
 #--------------------------------
 output "sa_iam_role_arns" {
   description = "List of Service Account IAM role ARNs"
-  value = values(aws_iam_role.sa_role).*.arn
+  value       = values(aws_iam_role.sa_role).*.arn
 }

@@ -42,13 +42,13 @@ module "aws_eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "v18.29.1"
 
-  cluster_name     = var.cluster_name
-  cluster_version  = var.cluster_version
-  vpc_id                        = var.vpc_id
-  subnet_ids                    = var.vpc_subnets_private
-  cluster_endpoint_private_access      = true
-  cluster_endpoint_public_access       = false
-  cluster_ip_family                    = "ipv4"
+  cluster_name                    = var.cluster_name
+  cluster_version                 = var.cluster_version
+  vpc_id                          = var.vpc_id
+  subnet_ids                      = var.vpc_subnets_private
+  cluster_endpoint_private_access = true
+  cluster_endpoint_public_access  = false
+  cluster_ip_family               = "ipv4"
 
   cluster_addons = {
     coredns = {
@@ -62,12 +62,12 @@ module "aws_eks" {
     }
   }
 
-  iam_role_name                 = local.cluster_iam_role_name
-  iam_role_use_name_prefix      = false
+  iam_role_name            = local.cluster_iam_role_name
+  iam_role_use_name_prefix = false
 
   cluster_security_group_additional_rules = local.cluster_security_group_additional_rules
-  node_security_group_additional_rules = local.node_security_group_additional_rules
-  node_security_group_tags             = local.node_security_group_tags
+  node_security_group_additional_rules    = local.node_security_group_additional_rules
+  node_security_group_tags                = local.node_security_group_tags
 
   attach_cluster_encryption_policy = false
   cluster_encryption_config        = local.cluster_encryption_config
@@ -81,12 +81,12 @@ module "aws_eks" {
 
   eks_managed_node_groups = {
     ondemand_v2 = {
-      name            = "ondemand_v2"
-      capacity_type   = "ON_DEMAND"
-      instance_types  = ["m5.2xlarge"]
-      min_size        = 2
-      max_size        = 2
-      desired_size    = 2
+      name           = "ondemand_v2"
+      capacity_type  = "ON_DEMAND"
+      instance_types = ["m5.2xlarge"]
+      min_size       = 2
+      max_size       = 2
+      desired_size   = 2
 
       subnet_ids = var.vpc_subnets_private
 
@@ -105,14 +105,14 @@ module "aws_eks" {
         }
       }
 
-      create_iam_role          = false
-      iam_role_arn = aws_iam_role.worker_node.arn
+      create_iam_role = false
+      iam_role_arn    = aws_iam_role.worker_node.arn
 
       ami_id                     = data.aws_ami.eks_default.image_id
       enable_bootstrap_user_data = true
 
-      create_security_group          = true
-      security_group_name            = "eks-managed-node-group"
+      create_security_group = true
+      security_group_name   = "eks-managed-node-group"
       security_group_rules = {
         ingress_self_all = {
           description = "Node to node all ports/protocols"
@@ -153,8 +153,8 @@ module "aws_eks" {
       }
 
       tags = {
-        "Name"                                                    = "${module.aws_eks.cluster_id}-ondemand_v2"
-        "kubernetes.io/cluster/${module.aws_eks.cluster_id}"     = "owned"
+        "Name"                                               = "${module.aws_eks.cluster_id}-ondemand_v2"
+        "kubernetes.io/cluster/${module.aws_eks.cluster_id}" = "owned"
       }
     }
   }
@@ -171,15 +171,15 @@ module "karpenter" {
 
   source = "./submodules/karpenter"
 
-  cluster_name                   = var.cluster_name
-  eks_endpoint                   = module.aws_eks.cluster_endpoint
-  eks_oidc_provider_url          = split("//", module.aws_eks.cluster_oidc_issuer_url)[1]
-  worker_node_iam_role           = aws_iam_role.worker_node.name
-  subnets                        = join(",", [for s in data.aws_subnet.subnets : s.id])
+  cluster_name                    = var.cluster_name
+  eks_endpoint                    = module.aws_eks.cluster_endpoint
+  eks_oidc_provider_url           = split("//", module.aws_eks.cluster_oidc_issuer_url)[1]
+  worker_node_iam_role            = aws_iam_role.worker_node.name
+  subnets                         = join(",", [for s in data.aws_subnet.subnets : s.id])
   karpenter_default_node_capacity = var.karpenter_default_node_capacity
   karpenter_default_node_instance = var.karpenter_default_node_instance
-  karpenter_default_node_cpu                            = var.karpenter_default_node_cpu
-  karpenter_default_node_memory                         = var.karpenter_default_node_memory
+  karpenter_default_node_cpu      = var.karpenter_default_node_cpu
+  karpenter_default_node_memory   = var.karpenter_default_node_memory
 
   tags = local.tags
 }

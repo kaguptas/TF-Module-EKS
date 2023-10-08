@@ -4,7 +4,7 @@ data "aws_region" "current" {}
 
 
 data "aws_eks_cluster" "cluster" {
-  name  = module.aws_eks.cluster_id
+  name = module.aws_eks.cluster_id
 }
 
 data "aws_eks_cluster_auth" "this" {
